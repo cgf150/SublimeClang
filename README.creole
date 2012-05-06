@@ -1,6 +1,23 @@
 === Description ===
 Clang plugin for Sublime Text 2 providing auto complete suggestions for C/C++/ObjC/ObjC++. It'll also optionally parse the code as it's typed and show errors and warnings.
 
+=== CUDA (non-)Support ===
+This version has been modified from the upstream version by myself (int3h) to ignore CUDA files extensions. Previously, if you
+had told Sublime Text 2 to interpret CUDA files (.cu, .ch) as C++ (handy since CUDA is the same as
+C/C++, plus a few additions, syntactically speaking,) SublimeClang would give you all sorts of horrible error
+messages as clang doesn't know how to deal with CUDA's language additions. SublimeClang now simply ignores
+files with .cu and .ch extensions, and passes them on Sublime Text's built-in C++ support, which handles
+CUDA much better.
+
+This is based off the [[http://www.sublimetext.com/forum/viewtopic.php?f=2&t=5371|advice of jps on the Sublime Text forums]].
+
+This is a bit of a hack. What we should be doing is creating a new mode for CUDA files, which would
+largely copy C/C++ while adding in the new keywords and syntax. This hack, however, is way easier and gets
+the job done for now.
+
+Please message me here on Github if discover a better way to support CUDA (e.g., an actual CUDA
+mode file for Sublime Text 2.)
+
 === Known issues and feature requests ===
 Please go [[https://github.com/quarnster/SublimeClang/issues?sort=created&direction=desc&state=open|here]] to see the currently known issues and feature request, or to file a new.
 

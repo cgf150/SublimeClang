@@ -43,13 +43,16 @@ from errormarkers import clear_error_marks, add_error_mark, show_error_marks, \
 from common import get_setting, get_settings, get_path_setting, Worker
 
 language_regex = re.compile("(?<=source\.)[\w+#]+")
+file_exclusion_regex = re.compile("\.(cu|ch)$")
 
 
 def get_language(view):
     caret = view.sel()[0].a
     language = language_regex.search(view.scope_name(caret))
+ 
     if language == None:
         return None
+
     return language.group(0)
 
 
@@ -57,6 +60,12 @@ def is_supported_language(view):
     if view.is_scratch() or not get_setting("enabled", True, view) or view.file_name() == None:
         return False
     language = get_language(view)
+
+    # Exlcude CUDA files
+    excluded_file_type = file_exclusion_regex.search(view.file_name()) 
+    if excluded_file_type != None:
+        return False
+
     if language == None or (language != "c++" and
                             language != "c" and
                             language != "objc" and
